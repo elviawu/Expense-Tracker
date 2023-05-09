@@ -35,6 +35,7 @@ app.use((req, res, next) => {
   next()
 })
 app.use(routes)
+app.use(express.static('public'))
 
 
 app.listen(port, () => {
