@@ -1,17 +1,20 @@
 <div class="card mx-auto mt-5" style="width: 80%; border:none;">
   <div class="card-body">
-    <div class="row mb-3">
-      <select class="form-select" aria-label="Default select example">
-        <option selected disabled>類別</option>
-        <option value="all">全部</option>
-        {{#each categories}}
-        <option value="{{this._id}}">{{this.name}}</option>
-        {{/each}}
-      </select>
+    <div class="container mb-3" style="text-align:center">
+      <h4 class="card-title fw-bold" style="color: grey">總花費</h4>
+      <h1 "card-text fs-3 fw-bolder" style="color: coral; font-size: 74px; font-weight:bold">${{ totalAmount }}</h1>
     </div>
-    <div class="mb-3">
-      <span>總花費：</span>
-      <span>${{ totalAmount }}</span>
+    <div class="row mb-3">
+      <form action="/" method="POST">
+        <select class="form-select" name="categoryId" id="categoryId" onchange="this.form.submit()"
+          aria-label="Default select example">
+          <option selected disabled>類別</option>
+          <option value="all">全部</option>
+          {{#each categories}}
+          <option value="{{this._id}}">{{this.name}}</option>
+          {{/each}}
+        </select>
+      </form>
     </div>
     <div class="mb-3">
       <table class="table table-striped">
@@ -27,21 +30,22 @@
         </thead>
         <tbody>
           {{#each records}}
-            <tr>
-              <td class="record-icon"><i class="{{this.categoryId.icon}}"></i></td>
-              <td>{{ this.name }}</td>
-              <td>{{ this.date }}</td>
-              <td>{{ this.amount }}</td>
-              <td><a href="/records/{{ this._id }}/edit" class="text-secondary"><i class="fa-solid fa-pen-to-square"></i></a></td>
-              <td>
-                <form action="/records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
-                  <button type="submit" class="delete-icon" style="border: none; background: transparent">
-                    <i class="fa-solid fa-trash-can"></i>
-                  </button>
-                  </button>
-                </form>
-              </td>
-            </tr>
+          <tr>
+            <td class="record-icon"><i class="{{this.categoryId.icon}}"></i></td>
+            <td>{{ this.name }}</td>
+            <td>{{ this.date }}</td>
+            <td>{{ this.amount }}</td>
+            <td><a href="/records/{{ this._id }}/edit" class="text-secondary"><i
+                  class="fa-solid fa-pen-to-square"></i></a></td>
+            <td>
+              <form action="/records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
+                <button type="submit" class="delete-icon" style="border: none; background: transparent">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+                </button>
+              </form>
+            </td>
+          </tr>
           {{/each}}
         </tbody>
       </table>

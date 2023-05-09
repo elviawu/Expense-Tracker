@@ -40,18 +40,18 @@ router.put('/:id', (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
   const record = req.body
-  return Record.findOneAndUpdate({_id, userId}, { ...record })
+  return Record.findOneAndUpdate({ _id, userId }, { ...record })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
-//刪除支出項目
+// 刪除支出項目
 router.delete('/:id', (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
   return Record.findOne({ _id, userId })
-  .then((record) => record.remove({ _id}))
-  .then(() => res.redirect('/'))
-  .catch(error => console.log(error))
+    .then((record) => record.remove({ _id }))
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
 })
 
 module.exports = router;

@@ -22,6 +22,32 @@ router.get('/', (req, res) => {
       })
   .catch(error => console.log(error))
   })
-})    
+})
+// 按類別排序
+router.post('/', (req, res) => {
+  const userId = req.user._id
+  const { categoryId } = req.body
+  if (categoryId === "all") {
+    return res.redirect('/')
+  }
+  return Category.find()
+    .lean()
+    .then((categories) => {
+      return Record.find({ userId, categoryId })
+        .populate('categoryId')
+        .lean()
+        .sort({ date: 'desc' })
+        .then((records) => {
+          let totalAmount = 0
+          records.forEach((record) => {
+            totalAmount += record.amount
+            record.date = record.date.toISOString().slice(0,10)
+          })
+          return res.render('index', { records, categories, totalAmount })
+        })
+        .catch(error => console.log(error))
+    })
+    .catch(error => console.log(error))
+})
 // 匯出路由模組
 module.exports = router
