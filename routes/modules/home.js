@@ -3,14 +3,14 @@ const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
 // 定義首頁路由
-router.get('/',async (req, res) => {
+router.get('/', (req, res) => {
   const userId = req.user._id
   let totalAmount = 0
   return Category.find()
   .lean()
   .then((categories) => {
     return Record.find({ userId })
-      .populate('categoryId') //以'categoryId'欄位把Expense跟Category資料庫關聯
+      .populate('categoryId') //以'categoryId'欄位把Record跟Category資料庫關聯
       .lean()
       .sort({ date: 'desc' })
       .then((records) => {
