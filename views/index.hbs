@@ -2,12 +2,11 @@
   <div class="card-body">
     <div class="row mb-3">
       <select class="form-select" aria-label="Default select example">
-        <option selected>類別</option>
-        <option value="1">餐飲食品</option>
-        <option value="2">交通出行</option>
-        <option value="3">休閒娛樂</option>
-        <option value="4">家居物業</option>
-        <option value="5">其他</option>
+        <option selected disabled>類別</option>
+        <option value="all">全部</option>
+        {{#each categories}}
+        <option value="{{this._id}}">{{this.name}}</option>
+        {{/each}}
       </select>
     </div>
     <div class="mb-3">
@@ -29,13 +28,13 @@
         <tbody>
           {{#each records}}
             <tr>
-              <td class="record-icon"><i class="{{this.categoryIcon}}"></i></td>
+              <td class="record-icon"><i class="{{this.categoryId.icon}}"></i></td>
               <td>{{ this.name }}</td>
               <td>{{ this.date }}</td>
               <td>{{ this.amount }}</td>
-              <td><a href="/records/edit" class="text-secondary"><i class="fa-solid fa-pen-to-square"></i></a></td>
+              <td><a href="/records/{{ this._id }}/edit" class="text-secondary"><i class="fa-solid fa-pen-to-square"></i></a></td>
               <td>
-                <form action="/" method="POST" style="display: inline;">
+                <form action="/records/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;">
                   <button type="submit" class="delete-icon" style="border: none; background: transparent">
                     <i class="fa-solid fa-trash-can"></i>
                   </button>
@@ -44,49 +43,6 @@
               </td>
             </tr>
           {{/each}}
-          
-          {{!-- <tr>
-            <td>食</td>
-            <td>午餐</td>
-            <td>2024-12-10</td>
-            <td>100</td>
-            <td><a href="/records/edit" class="text-secondary"><i class="fa fa-edit"></i></a></td>
-            <td>
-              <form action="/" method="POST" style="display: inline;">
-                <button type="submit" class="delete-icon text-secondary" style="border:none;">
-                  <i class="fa fa-trash-alt"></i>
-                </button>
-              </form>
-            </td>
-          </tr>
-          <tr>
-            <td>食</td>
-            <td>午餐</td>
-            <td>2024-12-10</td>
-            <td>100</td>
-            <td><a href="/records/edit" class="text-secondary"><i class="fa fa-edit"></i></a></td>
-            <td>
-              <form action="/" method="POST" style="display: inline;">
-                <button type="submit" class="delete-icon text-secondary" style="border:none">
-                  <i class="fa fa-trash-alt"></i>
-                </button>
-              </form>
-            </td>
-          </tr>
-          <tr>
-            <td>食</td>
-            <td>午餐</td>
-            <td>2024-12-10</td>
-            <td>100</td>
-            <td><a href="/records/edit" class="text-secondary"><i class="fa fa-edit"></i></a></td>
-            <td>
-              <form action="/" method="POST" style="display: inline;">
-                <button type="submit" class="delete-icon text-secondary" style="border:none">
-                  <i class="fa fa-trash-alt"></i>
-                </button>
-              </form>
-            </td>
-          </tr> --}}
         </tbody>
       </table>
     </div>

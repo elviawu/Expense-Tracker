@@ -4,24 +4,19 @@ const Record = require('../../models/record')
 const Category = require('../../models/category')
 
 router.get('/new', (req, res) => {
-  res.render('new');
+  return Category.find()
+    .lean()
+    .then((categories) => res.render('new', { categories }))
+    .catch(error => console.log(error))
 });
 
 router.post('/new', async (req, res) => {
-  try {
-    const userId = req.user._id
-    const record = req.body
-    const category = await Category.findOne({ name: record.categoryName })
-    await Record.create({ ...record, categoryId: category._id, userId })
-    res.redirect('/')
-  }
-  catch (error) {
-    console.log(error)
-  }
+  const userId = req.user._id
+  const record = req.body
+  console.log(req.body)
+  return Record.create({ ...record, userId })
+  .then(() => res.redirect('/'))
+  .catch (error => console.log(error))
 })
-
-router.get('/edit', (req, res) => {
-  res.render('edit');
-});
 
 module.exports = router;

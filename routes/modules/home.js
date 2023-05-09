@@ -5,17 +5,23 @@ const Category = require('../../models/category')
 // 定義首頁路由
 router.get('/',async (req, res) => {
   const userId = req.user._id
-  const records = await Record.find({ userId }).lean().sort({ date: "desc" });
-  const formattedRecords = []
   let totalAmount = 0
-  for (const record of records) {
-    const category = await Category.findById(record.categoryId).lean();
-    const formattedDate = new Date(record.date).toISOString().slice(0, 10);
-    totalAmount += record.amount
-    formattedRecords.push({ ...record, categoryIcon: category.icon, date: formattedDate })
-    // console.log(formattedRecords)
-  }
-  res.render('index', { records: formattedRecords, totalAmount })
+  return Category.find()
+  .lean()
+  .then((categories) => {
+    return Record.find({ userId })
+      .populate('categoryId') //以'categoryId'欄位把Expense跟Category資料庫關聯
+      .lean()
+      .sort({ date: 'desc' })
+      .then((records) => {
+        records.forEach((record) => {
+          record.date = record.date.toISOString().slice(0,10)
+          totalAmount += record.amount
+        })
+        return res.render('index', { records, categories, totalAmount })
+      })
+  .catch(error => console.log(error))
+  })
 })    
 // 匯出路由模組
 module.exports = router
