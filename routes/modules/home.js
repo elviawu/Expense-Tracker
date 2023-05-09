@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
     .lean()
     .then((categories) => {
       return Record.find({ userId, categoryId })
-        .populate('categoryId')
+        .populate('categoryId') //以'categoryId'欄位把Record跟Category資料庫關聯
         .lean()
         .sort({ date: 'desc' })
         .then((records) => {
